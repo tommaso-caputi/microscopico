@@ -6,6 +6,7 @@
 
 #define RAIN_PIN 3
 #define SOIL_MOISTURE_PIN A0  // Analog pin for soil moisture sensor
+#define MOVEMENT_PIN 7        // Digital pin for PIR movement sensor
 
 // DS1302 RTC module pin definitions
 #define RTC_CLK_PIN 4  // Clock pin for DS1302
@@ -20,12 +21,13 @@ void setup() {
   dht.begin();
   pinMode(RAIN_PIN, INPUT);
   pinMode(SOIL_MOISTURE_PIN, INPUT);  // Set soil moisture pin as input
+  pinMode(MOVEMENT_PIN, INPUT);       // Set movement sensor pin as input
 
   // Initialize DS1302 RTC module
   rtc.halt(false);          // Start the RTC (false = running, true = stopped)
   rtc.writeProtect(false);  // Allow writing to RTC registers (false = writable, true = protected)
-  //Time t(2025, 6, 18, 16, 17, 10, Time::kWednesday); //init time(only for setup)
-  //rtc.time(t);
+  Time t(2025, 6, 18, 16, 51, 00, Time::kWednesday); //init time(only for setup)
+  rtc.time(t);
 
   
 }
@@ -50,9 +52,13 @@ void loop() {
 
   // get soil moisture (analog output) --------------------------------------------------------------
   int soilMoistureRaw = analogRead(SOIL_MOISTURE_PIN);  // Read raw analog value (0-1023)
-  int soilMoisturePercent = map(soilMoistureRaw, 0, 1023, 0, 100);  // Convert to percentage
+  int soilMoisturePercent = map(soilMoistureRaw, 1023, 0, 0, 100);  // Convert to percentage
   // Note: You may need to calibrate the mapping based on your specific sensor
   // Typically: 0 = very wet, 1023 = very dry
+  //------------------------------------------------------------------------
+
+  // get movement (digital output) --------------------------------------------------------------
+  int movement = digitalRead(MOVEMENT_PIN);  // 1 = movement detected, 0 = no movement
   //------------------------------------------------------------------------
 
   // get time from DS1302 RTC --------------------------------------------------------------
@@ -63,10 +69,9 @@ void loop() {
           day.c_str(),
           t.yr, t.mon, t.date,
           t.hr, t.min, t.sec);
-  int tilt = 0;
   //------------------------------------------------------------------------
 
-  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soilMoisturePercent) + ",\"tilt\":" + String(tilt) + "}";
+  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soilMoisturePercent) + ",\"movement\":" + String(movement) + "}";
   Serial.println(json);
   delay(1000);
 }
