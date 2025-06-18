@@ -1,9 +1,6 @@
-const { SerialPort } = require('serialport');
 const { Server } = require('socket.io');
 const http = require('http');
 const express = require('express');
-
-const USE_RANDOM_DATA = true; // Set to false to use real serial data
 
 const app = express();
 const server = http.createServer(app);
@@ -34,7 +31,7 @@ setInterval(() => {
     };
     console.log('JSON random:', jsonData);
     io.emit('arduino-json', jsonData);
-}, 10000);
+}, 1000);
 
 server.listen(3001, () => {
     console.log('Arduino server in ascolto su http://localhost:3001');
