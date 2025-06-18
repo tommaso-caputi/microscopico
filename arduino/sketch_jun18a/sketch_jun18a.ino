@@ -5,6 +5,7 @@
 #define DHTTYPE DHT11
 
 #define RAIN_PIN 3
+#define SOIL_MOISTURE_PIN A0  // Analog pin for soil moisture sensor
 
 // DS1302 RTC module pin definitions
 #define RTC_CLK_PIN 4  // Clock pin for DS1302
@@ -18,6 +19,7 @@ void setup() {
   Serial.begin(9600);
   dht.begin();
   pinMode(RAIN_PIN, INPUT);
+  pinMode(SOIL_MOISTURE_PIN, INPUT);  // Set soil moisture pin as input
 
   // Initialize DS1302 RTC module
   rtc.halt(false);          // Start the RTC (false = running, true = stopped)
@@ -46,6 +48,13 @@ void loop() {
   rain = rain == 0 ? 1 : 0;          // Convert to 1 = rain, 0 = dry for consistency
   //------------------------------------------------------------------------
 
+  // get soil moisture (analog output) --------------------------------------------------------------
+  int soilMoistureRaw = analogRead(SOIL_MOISTURE_PIN);  // Read raw analog value (0-1023)
+  int soilMoisturePercent = map(soilMoistureRaw, 0, 1023, 0, 100);  // Convert to percentage
+  // Note: You may need to calibrate the mapping based on your specific sensor
+  // Typically: 0 = very wet, 1023 = very dry
+  //------------------------------------------------------------------------
+
   // get time from DS1302 RTC --------------------------------------------------------------
   Time t = rtc.time();
   const String day = dayAsString(t.day);
@@ -54,11 +63,10 @@ void loop() {
           day.c_str(),
           t.yr, t.mon, t.date,
           t.hr, t.min, t.sec);
-  int soil = 0;
   int tilt = 0;
   //------------------------------------------------------------------------
 
-  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soil) + ",\"tilt\":" + String(tilt) + "}";
+  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soilMoisturePercent) + ",\"tilt\":" + String(tilt) + "}";
   Serial.println(json);
   delay(1000);
 }
