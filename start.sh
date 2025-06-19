@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Configuration
 PORT=3001
 NODE_SCRIPT="arduino/server/server.js"
@@ -23,5 +21,5 @@ sleep 3
 echo "Server is available at: https://$DOMAIN"
 
 # Cleanup on exit
-trap "echo 'Stopping processes...'; kill $NODE_PID $NGROK_PID" EXIT
+trap "echo 'Stopping processes...'; kill -0 $NODE_PID 2>/dev/null && kill $NODE_PID; kill -0 $NGROK_PID 2>/dev/null && kill $NGROK_PID" EXIT
 wait $NODE_PID

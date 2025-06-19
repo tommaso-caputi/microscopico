@@ -35,7 +35,7 @@ export default function Home() {
           setData(json);
         }
       } catch (err) {
-        console.error('Fetch error:', err);
+        console.warn('Fetch error:', err);
       }
     };
     fetchData(); // Initial fetch
