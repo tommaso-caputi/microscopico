@@ -36,9 +36,7 @@ port.on('data', (data) => {
             try {
                 const jsonData = JSON.parse(line.trim()); // Parse JSON data from Arduino
                 latestData = jsonData; // Update latest data
-                console.log('received data from Arduino');
             } catch (err) {
-                console.warn('Dati non validi:', line); // Warn if data is not valid JSON
             }
         });
     }
@@ -47,7 +45,6 @@ port.on('data', (data) => {
 // Emit latestData to all connected clients at a regular interval
 setInterval(() => {
     if (latestData) {
-        console.log('')
         io.emit('arduino-data', latestData);
     }
 }, 1000); // Emit every X ms
