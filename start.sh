@@ -1,6 +1,6 @@
 # Configuration
 PORT=3001
-NODE_SCRIPT="arduino/server/server.js"
+NODE_SCRIPT="server/server.js"
 DOMAIN="panda-solid-globally.ngrok-free.app"
 
 # Start Node.js server
