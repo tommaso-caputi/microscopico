@@ -39,7 +39,7 @@ export default function Home() {
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-            Arduino Sensor Dashboard
+            Microscopico Dashboard
           </h1>
           <div className="text-center text-gray-600">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
