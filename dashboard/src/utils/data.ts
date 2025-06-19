@@ -4,5 +4,5 @@ export interface SensorData {
     rtc: string;     // time string (HH:MM:SS format)
     rain: number;    // rain presence (0 or 1)
     soil: number;    // soil moisture (0-100 range)
-    movement: number;    // movement/fall detection (0 or 1)
+    tilt: number;    // fall detection (0 or 1)
 }

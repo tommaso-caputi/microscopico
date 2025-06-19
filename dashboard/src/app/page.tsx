@@ -131,13 +131,13 @@ export default function Home() {
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-700">Movement</h3>
+                <h3 className="text-lg font-semibold text-gray-700">Tilt</h3>
                 <p className="text-3xl font-bold text-orange-600">
-                  {data.movement === 1 ? 'Detected' : 'None'}
+                  {data.tilt === 1 ? 'Detected' : 'None'}
                 </p>
               </div>
               <div className="text-orange-500 text-4xl">
-                {data.movement === 1 ? '⚠️' : '✅'}
+                {data.tilt === 1 ? '⚠️' : '✅'}
               </div>
             </div>
           </div>

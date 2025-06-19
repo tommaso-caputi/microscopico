@@ -6,7 +6,7 @@
 
 #define RAIN_PIN 3
 #define SOIL_MOISTURE_PIN A0  // Analog pin for soil moisture sensor
-#define MOVEMENT_PIN 7        // Digital pin for PIR movement sensor
+#define TILT_PIN 7            // Digital pin for tilt sensor
 
 // DS1302 RTC module pin definitions
 #define RTC_CLK_PIN 4  // Clock pin for DS1302
@@ -21,15 +21,13 @@ void setup() {
   dht.begin();
   pinMode(RAIN_PIN, INPUT);
   pinMode(SOIL_MOISTURE_PIN, INPUT);  // Set soil moisture pin as input
-  pinMode(MOVEMENT_PIN, INPUT);       // Set movement sensor pin as input
+  pinMode(TILT_PIN, INPUT);           // Set tilt sensor pin as input
 
   // Initialize DS1302 RTC module
-  rtc.halt(false);          // Start the RTC (false = running, true = stopped)
-  rtc.writeProtect(false);  // Allow writing to RTC registers (false = writable, true = protected)
-  Time t(2025, 6, 18, 16, 51, 00, Time::kWednesday); //init time(only for setup)
+  rtc.halt(false);                                    // Start the RTC (false = running, true = stopped)
+  rtc.writeProtect(false);                            // Allow writing to RTC registers (false = writable, true = protected)
+  Time t(2025, 6, 18, 16, 51, 00, Time::kWednesday);  //init time(only for setup)
   rtc.time(t);
-
-  
 }
 
 void loop() {
@@ -45,33 +43,32 @@ void loop() {
     return;
   }
   //------------------------------------------------------------------------
-  // get rain (digital output) --------------------------------------------------------------
+  // get rain (digital output) ---------------------------------------------
   int rain = digitalRead(RAIN_PIN);  // 0 = rain, 1 = no rain
   rain = rain == 0 ? 1 : 0;          // Convert to 1 = rain, 0 = dry for consistency
   //------------------------------------------------------------------------
 
-  // get soil moisture (analog output) --------------------------------------------------------------
-  int soilMoistureRaw = analogRead(SOIL_MOISTURE_PIN);  // Read raw analog value (0-1023)
+  // get soil moisture (analog output) -------------------------------------
+  int soilMoistureRaw = analogRead(SOIL_MOISTURE_PIN);              // Read raw analog value (0-1023)
   int soilMoisturePercent = map(soilMoistureRaw, 1023, 0, 0, 100);  // Convert to percentage
-  // Note: You may need to calibrate the mapping based on your specific sensor
-  // Typically: 0 = very wet, 1023 = very dry
   //------------------------------------------------------------------------
 
-  // get movement (digital output) --------------------------------------------------------------
-  int movement = digitalRead(MOVEMENT_PIN);  // 1 = movement detected, 0 = no movement
+  // get tilt status (digital output) --------------------------------------
+  int tilt = digitalRead(TILT_PIN);  // 1 = tilted, 0 = stable
   //------------------------------------------------------------------------
 
-  // get time from DS1302 RTC --------------------------------------------------------------
+  // get time from DS1302 RTC ----------------------------------------------
   Time t = rtc.time();
   const String day = dayAsString(t.day);
   char buf[50];
   snprintf(buf, sizeof(buf), "%s %04d-%02d-%02d %02d:%02d:%02d",
-          day.c_str(),
-          t.yr, t.mon, t.date,
-          t.hr, t.min, t.sec);
+           day.c_str(),
+           t.yr, t.mon, t.date,
+           t.hr, t.min, t.sec);
   //------------------------------------------------------------------------
 
-  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soilMoisturePercent) + ",\"movement\":" + String(movement) + "}";
+  String json = "{\"temp\":" + String(temp, 1) + ",\"hum\":" + String(hum, 1) + ",\"rtc\":\"" + buf + "\",\"rain\":" + String(rain) + ",\"soil\":" + String(soilMoisturePercent) + ",\"tilt\":" + String(tilt) + "}";
+
   Serial.println(json);
   delay(1000);
 }
