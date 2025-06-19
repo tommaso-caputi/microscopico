@@ -90,17 +90,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Time Card */}
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-700">Time</h3>
-                <p className="text-3xl font-bold text-green-600">{data.rtc}</p>
-              </div>
-              <div className="text-green-500 text-4xl">⏰</div>
-            </div>
-          </div>
-
           {/* Rain Detection Card */}
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
             <div className="flex items-center justify-between">
@@ -138,6 +127,21 @@ export default function Home() {
               </div>
               <div className="text-orange-500 text-4xl">
                 {data.tilt === 1 ? '⚠️' : '✅'}
+              </div>
+            </div>
+          </div>
+
+          {/* Smoke Detection Card */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700">Smoke Detection</h3>
+                <p className="text-3xl font-bold text-gray-700">
+                  {data.smoke === 1 ? 'Detected' : 'None'}
+                </p>
+              </div>
+              <div className="text-gray-700 text-4xl">
+                {data.smoke === 1 ? '🔥' : '✅'}
               </div>
             </div>
           </div>
