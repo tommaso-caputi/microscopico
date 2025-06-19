@@ -10,15 +10,38 @@ export default function Home() {
   const [data, setData] = useState<SensorData | null>(null);
 
   useEffect(() => {
-    socket = io('http://localhost:3001');
+    // --- SOCKET.IO LOGIC ---
+    /*  socket = io('http://localhost:3001');
+     socket.on('arduino-data', (sensorData: SensorData) => {
+       setData(sensorData);
+     });
+     socket.on('connect_error', (err) => {
+       console.error('Socket connection error:', err);
+     });
+     return () => {
+       if (socket) {
+         socket.off('arduino-data');
+         socket.disconnect();
+       }
+     }; */
 
-    socket.on('arduino-json', (jsonData: SensorData) => {
-      setData(jsonData);
-    });
-
-    return () => {
-      socket.disconnect();
+    // --- API POLLING LOGIC  ---
+    let intervalId: NodeJS.Timeout;
+    const fetchData = async () => {
+      try {
+        const res = await fetch('https://panda-solid-globally.ngrok-free.app/api/arduino-data');
+        if (res.ok) {
+          const json = await res.json();
+          setData(json);
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
     };
+    fetchData(); // Initial fetch
+    intervalId = setInterval(fetchData, 1000); // Poll every X ms
+    return () => clearInterval(intervalId);
+
   }, []);
 
   if (!data) {
@@ -43,7 +66,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Arduino Sensor Dashboard
         </h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Temperature Card */}
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
