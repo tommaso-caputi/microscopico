@@ -13,8 +13,7 @@ const io = new Server(server, {
     cors: {
         origin: '*',
         methods: ['GET', 'POST']
-    },
-    transports: ['websocket']
+    }
 }); // Set up socket.io with CORS
 
 // Set up the serial port connection to Arduino

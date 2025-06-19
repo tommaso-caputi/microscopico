@@ -4,29 +4,19 @@ import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { SensorData } from '../utils/data';
 
-let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
-
 export default function Home() {
   const [data, setData] = useState<SensorData | null>(null);
 
   useEffect(() => {
     // --- SOCKET.IO LOGIC ---
-    /*  socket = io('http://localhost:3001');
-     socket.on('arduino-data', (sensorData: SensorData) => {
-       setData(sensorData);
-     });
-     socket.on('connect_error', (err) => {
-       console.error('Socket connection error:', err);
-     });
-     return () => {
-       if (socket) {
-         socket.off('arduino-data');
-         socket.disconnect();
-       }
-     }; */
+    const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
+    socket.on('arduino-data', (msg: SensorData) => setData(msg));
+    return () => {
+      socket.disconnect();
+    };
 
     // --- API POLLING LOGIC  ---
-    let intervalId: NodeJS.Timeout;
+    /* let intervalId: NodeJS.Timeout;
     const fetchData = async () => {
       try {
         const res = await fetch('https://panda-solid-globally.ngrok-free.app/api/arduino-data');
@@ -40,7 +30,7 @@ export default function Home() {
     };
     fetchData(); // Initial fetch
     intervalId = setInterval(fetchData, 1000); // Poll every X ms
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); */
 
   }, []);
 
