@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sensor Dashboard",
+  title: "Microscopico Dashboard",
   description: "",
 };
 
