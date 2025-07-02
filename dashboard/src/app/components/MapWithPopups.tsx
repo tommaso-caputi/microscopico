@@ -22,6 +22,7 @@ interface MapWithPopupsProps {
     center?: [number, number];
     zoom?: number;
     markers?: MarkerData[];
+    onMarkerClick?: (popupText: string) => void;
 }
 
 const MapWithPopups: React.FC<MapWithPopupsProps> = ({
@@ -32,6 +33,7 @@ const MapWithPopups: React.FC<MapWithPopupsProps> = ({
         { position: [41.120, 16.860], popupText: '2' },
         { position: [41.116, 16.860], popupText: '3' },
     ],
+    onMarkerClick,
 }) => {
     useEffect(() => {
         // Prevent SSR issues
@@ -45,8 +47,22 @@ const MapWithPopups: React.FC<MapWithPopupsProps> = ({
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {markers.map((marker, idx) => (
-                <Marker key={idx} position={marker.position} icon={L.divIcon({ className: 'custom-div-icon', html: `<div style=\"background: #2A93D5; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; border: 2px solid #fff; box-shadow: 0 0 4px rgba(0,0,0,0.3);\">${marker.popupText}</div>` })}>
-                    <Popup></Popup>
+                <Marker
+                    key={idx}
+                    position={marker.position}
+                    icon={L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style=\"background: #2A93D5; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; border: 2px solid #fff; box-shadow: 0 0 4px rgba(0,0,0,0.3);\">${marker.popupText}</div>`
+                    })}
+                    eventHandlers={{
+                        click: () => {
+                            if (onMarkerClick) {
+                                onMarkerClick(marker.popupText);
+                            }
+                        },
+                    }}
+                >
+                    {/* <Popup></Popup> */}
                 </Marker>
             ))}
         </MapContainer>
