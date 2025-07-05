@@ -40,9 +40,8 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
 
             {/* Dashboard Panel */}
             <div
-                className={`fixed top-0 right-0 h-full bg-white/95 backdrop-blur-sm shadow-xl border-l transition-transform duration-300 ease-in-out z-[9998] ${
-                    isOpen ? "translate-x-0" : "translate-x-full"
-                } w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl`}
+                className={`fixed top-0 right-0 h-full bg-white/95 backdrop-blur-sm shadow-xl border-l transition-transform duration-300 ease-in-out z-[9998] ${isOpen ? "translate-x-0" : "translate-x-full"
+                    } w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl`}
             >
                 {/* Header */}
                 <div className="p-4 border-b bg-muted/30">
@@ -81,9 +80,9 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                                             </div>
                                             {hasData && (
                                                 <div className="flex items-center justify-between">
-                                                    <p className="text-xs text-muted-foreground">
+                                                    {/* <p className="text-xs text-muted-foreground">
                                                         Ultimo aggiornamento: {group.lastUpdate ? formatLastUpdate(group.lastUpdate) : "Mai"}
-                                                    </p>
+                                                    </p> */}
                                                     <p className="text-xs text-muted-foreground">
                                                         {group.lastUpdate?.toLocaleTimeString("it-IT", {
                                                             hour: "2-digit",
