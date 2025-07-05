@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { SensorData } from '../../utils/data';
+import { SensorData } from '../types/sensor';
 
 interface DashboardProps {
   popupText: string;

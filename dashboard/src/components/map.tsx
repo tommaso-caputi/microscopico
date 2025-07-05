@@ -25,7 +25,7 @@ interface MapWithPopupsProps {
     onMarkerClick?: (popupText: string) => void;
 }
 
-const MapWithPopups: React.FC<MapWithPopupsProps> = ({
+const Map: React.FC<MapWithPopupsProps> = ({
     center = [41.1171, 16.8719],
     zoom = 13,
     markers = [
@@ -41,7 +41,7 @@ const MapWithPopups: React.FC<MapWithPopupsProps> = ({
     }, []);
 
     return (
-        <MapContainer center={center} zoom={zoom} scrollWheelZoom style={{ height: '500px', width: '100%' }}>
+        <MapContainer center={center} zoom={zoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
             <TileLayer
                 attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -69,4 +69,4 @@ const MapWithPopups: React.FC<MapWithPopupsProps> = ({
     );
 };
 
-export default MapWithPopups;
+export default Map;

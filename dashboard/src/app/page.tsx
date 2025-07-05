@@ -1,27 +1,29 @@
-'use client';
-import dynamic from 'next/dynamic';
-import Dashboard from './components/Dashboard';
-import { useState } from 'react';
-
-const MapWithPopups = dynamic(() => import('./components/MapWithPopups'), { ssr: false });
+"use client"
+import { useState } from "react"
+import SensorDashboard from "@/components/sensor-dashboard"
+import Map from "@/components/map"
 
 export default function Home() {
-  const [selectedPopupText, setSelectedPopupText] = useState<string>('1');
+  const [dashboardOpen, setDashboardOpen] = useState(true)
+
+  const toggleDashboard = () => {
+    setDashboardOpen(!dashboardOpen)
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-200 px-2 pt-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center text-blue-500">Microscopico Dashboard</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="order-2 md:order-1">
-            <div className="h-[500px] w-full">
-              <MapWithPopups onMarkerClick={setSelectedPopupText} />
-            </div>
-          </div>
-          <div className="order-1 md:order-2">
-            <Dashboard popupText={selectedPopupText} />
+    <div className="h-screen flex overflow-hidden relative">
+      <div className="flex-1 relative">
+        <div className="w-full h-full relative">
+          <Map />
+
+          <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
+            <h2 className="text-sm font-semibold text-gray-800">Area di Monitoraggio</h2>
+            <p className="text-xs text-gray-600">3 Gruppi Sensori Attivi</p>
           </div>
         </div>
       </div>
-    </main>
-  );
+
+      <SensorDashboard isOpen={dashboardOpen} onToggle={toggleDashboard} />
+    </div>
+  )
 }

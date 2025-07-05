@@ -18,7 +18,7 @@ const io = new Server(server, {
 
 // Set up the serial port connection to Arduino
 const port = new SerialPort({
-    path: '/dev/cu.usbmodem11101', // DA CAMBIRE LA PARTE DELLE ULTIME CIFRE 
+    path: '/dev/cu.usbmodem1201', // DA CAMBIRE LA PARTE DELLE ULTIME CIFRE 
     baudRate: 9600, // Baud rate must match Arduino's serial settings
 });
 
