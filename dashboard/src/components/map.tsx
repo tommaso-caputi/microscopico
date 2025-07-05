@@ -1,17 +1,28 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 
-// Fix default icon issue
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-});
+// Dynamically import Leaflet components to avoid SSR issues
+const MapContainer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+
+const TileLayer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+
+const Marker = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Marker),
+  { ssr: false }
+);
+
+const Popup = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Popup),
+  { ssr: false }
+);
 
 interface MarkerData {
     position: [number, number];
@@ -35,10 +46,34 @@ const Map: React.FC<MapWithPopupsProps> = ({
     ],
     onMarkerClick,
 }) => {
+    const [isClient, setIsClient] = useState(false);
+    const [L, setL] = useState<any>(null);
+
     useEffect(() => {
-        // Prevent SSR issues
-        // Only needed if you're pre-rendering pages (Next.js SSR)
+        // Only run on client side
+        setIsClient(true);
+        
+        // Dynamically import Leaflet
+        import('leaflet').then((leaflet) => {
+            // Fix default icon issue
+            delete (leaflet.default.Icon.Default.prototype as any)._getIconUrl;
+            leaflet.default.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+            });
+            setL(leaflet.default);
+        });
     }, []);
+
+    // Don't render anything until we're on the client side
+    if (!isClient || !L) {
+        return (
+            <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                Loading map...
+            </div>
+        );
+    }
 
     return (
         <MapContainer center={center} zoom={zoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
