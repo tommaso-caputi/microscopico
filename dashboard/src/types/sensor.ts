@@ -29,6 +29,7 @@ export interface SensorGroup {
     status: "online" | "offline"
     lastUpdate: Date | null
     data: SensorData | null
+    position?: [number, number] // Map coordinates [latitude, longitude]
 }
 
 export type SensorStatus = "normale" | "attenzione" | "critico"

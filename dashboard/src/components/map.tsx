@@ -2,6 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import { SensorGroup, SensorData } from '@/types/sensor';
+import { getGroupOverallStatus, getMarkerColor } from '@/utils/sensor-utils';
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(
@@ -24,26 +26,17 @@ const Popup = dynamic(
   { ssr: false }
 );
 
-interface MarkerData {
-    position: [number, number];
-    popupText: string;
-}
-
 interface MapWithPopupsProps {
     center?: [number, number];
     zoom?: number;
-    markers?: MarkerData[];
-    onMarkerClick?: (popupText: string) => void;
+    sensorGroups?: SensorGroup[];
+    onMarkerClick?: (groupId: string) => void;
 }
 
 const Map: React.FC<MapWithPopupsProps> = ({
     center = [41.1171, 16.8719],
     zoom = 13,
-    markers = [
-        { position: [41.1187, 16.852], popupText: '1' },
-        { position: [41.120, 16.860], popupText: '2' },
-        { position: [41.116, 16.860], popupText: '3' },
-    ],
+    sensorGroups = [],
     onMarkerClick,
 }) => {
     const [isClient, setIsClient] = useState(false);
@@ -81,25 +74,45 @@ const Map: React.FC<MapWithPopupsProps> = ({
                 attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {markers.map((marker, idx) => (
-                <Marker
-                    key={idx}
-                    position={marker.position}
-                    icon={L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style=\"background: #2A93D5; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; border: 2px solid #fff; box-shadow: 0 0 4px rgba(0,0,0,0.3);\">${marker.popupText}</div>`
-                    })}
-                    eventHandlers={{
-                        click: () => {
-                            if (onMarkerClick) {
-                                onMarkerClick(marker.popupText);
-                            }
-                        },
-                    }}
-                >
-                    {/* <Popup></Popup> */}
-                </Marker>
-            ))}
+            {sensorGroups.map((group) => {
+                if (!group.position) return null;
+                
+                const hasData = group.data !== null;
+                const overallStatus = hasData ? getGroupOverallStatus(group.data as SensorData) : "normale";
+                const markerColor = getMarkerColor(overallStatus);
+                
+                return (
+                    <Marker
+                        key={group.id}
+                        position={group.position}
+                        icon={L.divIcon({
+                            className: 'custom-div-icon',
+                            html: `<div style="background: ${markerColor}; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; border: 2px solid #fff; box-shadow: 0 0 4px rgba(0,0,0,0.3);">${group.name.split(' ')[1] || group.name.charAt(0)}</div>`
+                        })}
+                        eventHandlers={{
+                            click: () => {
+                                if (onMarkerClick) {
+                                    onMarkerClick(group.id);
+                                }
+                            },
+                        }}
+                    >
+                        <Popup>
+                            <div className="text-center">
+                                <h3 className="font-bold text-lg">{group.name}</h3>
+                                <p className="text-sm text-gray-600">Status: {overallStatus}</p>
+                                {hasData && (
+                                    <div className="mt-2 text-xs">
+                                        <p>Temperatura: {group.data?.temp}°C</p>
+                                        <p>Umidità: {group.data?.hum}%</p>
+                                        <p>Suolo: {group.data?.soil}%</p>
+                                    </div>
+                                )}
+                            </div>
+                        </Popup>
+                    </Marker>
+                );
+            })}
         </MapContainer>
     );
 };

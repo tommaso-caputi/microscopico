@@ -132,3 +132,17 @@ export const generateRandomSensorData = (): SensorData => ({
     tilt: Math.random() > 0.9 ? 1 : 0, // 10% chance of tilt
 })
 
+// Funzione per ottenere il colore del marker basato sullo stato del gruppo
+export const getMarkerColor = (status: SensorStatus): string => {
+    switch (status) {
+        case "normale":
+            return "#22c55e" // green-500
+        case "attenzione":
+            return "#eab308" // yellow-500
+        case "critico":
+            return "#ef4444" // red-500
+        default:
+            return "#6b7280" // gray-500
+    }
+}
+
