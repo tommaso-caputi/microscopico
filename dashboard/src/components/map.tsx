@@ -35,7 +35,7 @@ interface MapWithPopupsProps {
 
 const Map: React.FC<MapWithPopupsProps> = ({
     center = [41.1171, 16.8719],
-    zoom = 13,
+    zoom = 10,
     sensorGroups = [],
     onMarkerClick,
 }) => {

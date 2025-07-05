@@ -11,7 +11,7 @@ export default function Home() {
   const [sensorGroups, setSensorGroups] = useState<SensorGroup[]>([
     {
       id: "gruppo-1",
-      name: "Arduino 1",
+      name: "Murgia",
       status: "offline",
       lastUpdate: null,
       data: null,
@@ -19,11 +19,11 @@ export default function Home() {
     },
     {
       id: "gruppo-2",
-      name: "Arduino 2",
+      name: "Politecnico",
       status: "offline",
       lastUpdate: null,
       data: null,
-      position: [41.120, 16.860],
+      position: [40.997225226176965, 16.3758999787912],
     }
   ])
 

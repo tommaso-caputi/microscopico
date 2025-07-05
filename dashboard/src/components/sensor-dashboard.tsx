@@ -49,7 +49,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <Activity className="w-5 h-5 text-primary" />
-                            <h2 className="text-lg font-semibold">Dashboard Sensori</h2>
+                            <h2 className="text-lg font-semibold">Dashboard Microscopico</h2>
                         </div>
                         {/* <div className="flex items-center gap-2">
                             <div className="flex items-center gap-1">
