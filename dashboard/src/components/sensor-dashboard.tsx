@@ -32,7 +32,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
             {/* Toggle Button */}
             <Button
                 onClick={onToggle}
-                className="fixed top-4 right-4 z-[9999] bg-white/90 backdrop-blur-sm hover:bg-white/95 shadow-lg border"
+                className="fixed top-4 right-4 z-[9999] bg-white/90 backdrop-blur-sm hover:bg-white/95 shadow-lg border md:top-4 md:right-4"
                 size="sm"
             >
                 {isOpen ? <ChevronRight className="w-4 h-4 text-black" /> : <ChevronLeft className="w-4 h-4 text-black" />}
@@ -40,9 +40,9 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
 
             {/* Dashboard Panel */}
             <div
-                className={`fixed top-0 right-0 h-full bg-white/95 backdrop-blur-sm shadow-xl border-l transition-transform duration-300 ease-in-out z-[9998] ${isOpen ? "translate-x-0" : "translate-x-full"
-                    }`}
-                style={{ width: "400px" }}
+                className={`fixed top-0 right-0 h-full bg-white/95 backdrop-blur-sm shadow-xl border-l transition-transform duration-300 ease-in-out z-[9998] ${
+                    isOpen ? "translate-x-0" : "translate-x-full"
+                } w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl`}
             >
                 {/* Header */}
                 <div className="p-4 border-b bg-muted/30">
@@ -51,20 +51,6 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                             <Activity className="w-5 h-5 text-primary" />
                             <h2 className="text-lg font-semibold">Dashboard Microscopico</h2>
                         </div>
-                        {/* <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1">
-                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                <span className="text-xs text-muted-foreground">{normalCount}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                <span className="text-xs text-muted-foreground">{warningCount}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                                <span className="text-xs text-muted-foreground">{criticalCount}</span>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
 

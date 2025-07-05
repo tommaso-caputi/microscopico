@@ -7,7 +7,7 @@ import { SensorGroup, SensorData } from "@/types/sensor"
 import { generateRandomSensorData } from "@/utils/sensor-utils"
 
 export default function Home() {
-  const [dashboardOpen, setDashboardOpen] = useState(true)
+  const [dashboardOpen, setDashboardOpen] = useState(false) // Start closed on mobile
   const [sensorGroups, setSensorGroups] = useState<SensorGroup[]>([
     {
       id: "gruppo-1",
@@ -31,7 +31,7 @@ export default function Home() {
     const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
 
     socket.on('arduino-data', (msg: SensorData) => {
-      console.log('prova')
+      console.log(msg)
       // Update the first group with real socket data
       setSensorGroups(prevGroups => {
         const updatedGroups = [...prevGroups];
@@ -101,11 +101,14 @@ export default function Home() {
 
   const handleMarkerClick = (groupId: string) => {
     console.log('Marker clicked:', groupId);
-    // You can add additional logic here if needed
+    // Open dashboard when marker is clicked on mobile
+    if (window.innerWidth < 768) {
+      setDashboardOpen(true);
+    }
   }
 
   return (
-    <div className="h-screen flex overflow-hidden relative">
+    <div className="h-screen w-screen flex overflow-hidden relative">
       <div className="flex-1 relative">
         <div className="w-full h-full relative">
           <Map sensorGroups={sensorGroups} onMarkerClick={handleMarkerClick} />
