@@ -31,7 +31,6 @@ export default function Home() {
     const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
 
     socket.on('arduino-data', (msg: SensorData) => {
-      console.log(msg)
       // Update the first group with real socket data
       setSensorGroups(prevGroups => {
         const updatedGroups = [...prevGroups];
