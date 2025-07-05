@@ -83,6 +83,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                                                     {/* <p className="text-xs text-muted-foreground">
                                                         Ultimo aggiornamento: {group.lastUpdate ? formatLastUpdate(group.lastUpdate) : "Mai"}
                                                     </p> */}
+                                                    <div></div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {group.lastUpdate?.toLocaleTimeString("it-IT", {
                                                             hour: "2-digit",
