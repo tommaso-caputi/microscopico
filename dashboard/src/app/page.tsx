@@ -15,7 +15,7 @@ export default function Home() {
       status: "offline",
       lastUpdate: null,
       data: null,
-      position: [41.1187, 16.852],
+      position: [40.997225226176965, 16.3758999787912]
     },
     {
       id: "gruppo-2",
@@ -23,7 +23,7 @@ export default function Home() {
       status: "offline",
       lastUpdate: null,
       data: null,
-      position: [40.997225226176965, 16.3758999787912],
+      position: [41.1187, 16.852]
     }
   ])
 
@@ -31,10 +31,11 @@ export default function Home() {
     const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
 
     socket.on('arduino-data', (msg: SensorData) => {
+      console.log('prova')
       // Update the first group with real socket data
       setSensorGroups(prevGroups => {
         const updatedGroups = [...prevGroups];
-        if (updatedGroups[0]) {
+        if (updatedGroups[0] && msg !== null) {
           updatedGroups[0] = {
             ...updatedGroups[0],
             data: msg,
