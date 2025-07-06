@@ -16,10 +16,12 @@ if ! ngrok config check 2>&1 | grep -q 'ok'; then
   exit 1
 fi
 
-# ⚙️ Configurazione
+# Modifica NODE_SCRIPT con il percorso assoluto del tuo file server.js
+NODE_SCRIPT=""
+# Modifica DOMAIN con il tuo dominio statico riservato di ngrok
+DOMAIN=""
+# Modifica PORT se necessario
 PORT=3001
-NODE_SCRIPT="server/server.js"
-DOMAIN="panda-solid-globally.ngrok-free.app"
 
 # 🚀 Avvio del server Node.js
 echo "🟢 Avvio del server Node.js sulla porta $PORT..."
