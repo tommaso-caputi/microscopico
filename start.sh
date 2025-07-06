@@ -1,43 +1,45 @@
-# Check if node is installed
+# ✅ Controllo se Node.js è installato
 if ! command -v node >/dev/null 2>&1; then
-  echo "Error: Node.js is not installed. Please install Node.js to continue."
+  echo "❌ Errore: Node.js non è installato. Per favore installa Node.js per continuare."
   exit 1
 fi
 
-# Check if ngrok is installed
+# ✅ Controllo se ngrok è installato
 if ! command -v ngrok >/dev/null 2>&1; then
-  echo "Error: ngrok is not installed. Please install ngrok to continue."
+  echo "❌ Errore: ngrok non è installato. Per favore installa ngrok per continuare."
   exit 1
 fi
 
-# Check if ngrok authtoken is set
+# ✅ Controllo se l'authtoken di ngrok è impostato
 if ! ngrok config check 2>&1 | grep -q 'ok'; then
-  echo "Error: ngrok authtoken is not set. Please run 'ngrok config add-authtoken <YOUR_AUTHTOKEN>' to set it."
+  echo "❌ Errore: l'authtoken di ngrok non è impostato. Esegui 'ngrok config add-authtoken <TUO_AUTHTOKEN>' per impostarlo."
   exit 1
 fi
 
-# Configuration
+# ⚙️ Configurazione
 PORT=3001
 NODE_SCRIPT="server/server.js"
 DOMAIN="panda-solid-globally.ngrok-free.app"
 
-# Start Node.js server
-echo "Starting Node.js server on port $PORT..."
+# 🚀 Avvio del server Node.js
+echo "🟢 Avvio del server Node.js sulla porta $PORT..."
 node "$NODE_SCRIPT" &
 NODE_PID=$!
 
-# Wait for server to start
+# ⏳ Attendo l'avvio del server
 sleep 2
 
-# Start ngrok with reserved domain
-echo "Starting ngrok tunnel with reserved domain: https://$DOMAIN ..."
+# 🌐 Avvio del tunnel ngrok con dominio riservato
+echo "\n🟣 Avvio del tunnel ngrok con dominio riservato: https://$DOMAIN ..."
 ngrok http --domain=$DOMAIN $PORT > /dev/null &
 NGROK_PID=$!
 
 sleep 3
 
-echo "Server is available at: https://$DOMAIN"
+echo "\n✅ Server disponibile all'indirizzo: https://$DOMAIN"
 
-# Cleanup on exit
-trap "echo 'Stopping processes...'; kill -0 $NODE_PID 2>/dev/null && kill $NODE_PID; kill -0 $NGROK_PID 2>/dev/null && kill $NGROK_PID" EXIT
+echo "\n🔴 Premi Ctrl+C per fermare tutto."
+
+# 🧹 Pulizia all'uscita
+trap "\necho '🛑 Arresto dei processi...'; kill -0 $NODE_PID 2>/dev/null && kill $NODE_PID; kill -0 $NGROK_PID 2>/dev/null && kill $NGROK_PID" EXIT
 wait $NODE_PID
