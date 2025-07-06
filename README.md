@@ -87,3 +87,16 @@ PORT=3001
 ```
 
 Assicurati di aggiornare questi valori in base al tuo ambiente e al dominio statico che hai riservato su ngrok.
+
+---
+
+❗ **IMPORTANTE: Dominio coerente tra backend e frontend**
+
+Il dominio specificato nella variabile `DOMAIN` di `start.sh` deve essere lo stesso utilizzato per la connessione socket nel file `dashboard/src/app/page.tsx`:
+
+```js
+// dashboard/src/app/page.tsx
+const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
+```
+
+Se cambi il dominio ngrok, ricordati di aggiornare **sia** `start.sh` **che** il file `page.tsx` con il nuovo dominio, per garantire il corretto funzionamento della comunicazione in tempo reale tra dashboard e server.

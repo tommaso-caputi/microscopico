@@ -28,7 +28,7 @@ export default function Home() {
   ])
 
   useEffect(() => {
-    const socket: Socket = io('https://panda-solid-globally.ngrok-free.app');
+    const socket: Socket = io('');
 
     socket.on('arduino-data', (msg: SensorData) => {
       // Update the first group with real socket data
