@@ -32,7 +32,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
             {/* Toggle Button */}
             <Button
                 onClick={onToggle}
-                className="fixed top-4 right-4 z-[9999] bg-white/90 backdrop-blur-sm hover:bg-white/95 shadow-lg border md:top-4 md:right-4"
+                className="fixed top-4 right-4 z-[9999] bg-white/90 backdrop-blur-sm hover:bg-white/95 shadow-lg  md:top-4 md:right-4"
                 size="sm"
             >
                 {isOpen ? <ChevronRight className="w-4 h-4 text-black" /> : <ChevronLeft className="w-4 h-4 text-black" />}
