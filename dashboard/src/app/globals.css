@@ -77,6 +77,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --custom-green: rgba(0, 247, 47, 255);
+  --custom-dark: rgba(17, 24, 39, 255);
+  --custom-dark2: rgba(31, 41, 55);
 }
 
 .dark {
@@ -117,32 +120,36 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  
+
   /* Mobile-specific styles */
   html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
-  
+
   /* Prevent zoom on input focus on iOS */
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px;
   }
-  
+
   /* Improve touch targets on mobile */
-  button, [role="button"] {
+  button,
+  [role="button"] {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Prevent horizontal scroll on mobile */
   body {
     overflow-x: hidden;
   }
-  
+
   /* Improve scrolling on mobile */
   * {
     -webkit-overflow-scrolling: touch;
@@ -171,6 +178,7 @@
   border-top: none !important;
 }
 
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
   border: 0;
 }

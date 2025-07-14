@@ -44,26 +44,26 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                     } w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl`}
             >
                 {/* Header */}
-                <div className="p-4 border-b bg-muted/30">
+                <div className="p-4 border-b bg-(--custom-dark)">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Activity className="w-5 h-5 text-primary" />
-                            <h2 className="text-lg font-semibold">Dashboard Microscopico</h2>
+                            <Activity className="w-5 h-5 text-white" />
+                            <h2 className="text-lg font-semibold text-(--custom-green)">Dashboard Microscopico</h2>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col h-full">
-                    <ScrollArea className="flex-1 overflow-hidden">
+                    <ScrollArea className="flex-1 overflow-hidden bg-(--custom-dark)">
                         <div className="p-4 space-y-4 pb-20">
                             {sensorGroups.map((group) => {
                                 const hasData = group.data !== null
                                 const overallStatus = hasData ? getGroupOverallStatus(group.data as SensorData) : "normale"
                                 return (
-                                    <Card key={group.id} className="border-2">
+                                    <Card key={group.id} className="border bg-(--custom-dark2)">
                                         <CardHeader className="">
                                             <div className="flex items-center justify-between">
-                                                <CardTitle className="text-lg flex items-center gap-2">
+                                                <CardTitle className="text-lg flex items-center gap-2 text-white">
                                                     <div
                                                         className={`w-4 h-4 rounded-full ${overallStatus === "critico"
                                                             ? "bg-red-500"
@@ -79,7 +79,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                                                 </Badge>
                                             </div>
                                             {hasData && (
-                                                <div className="flex items-center justify-between">
+                                                <div className="flex items-center justify-between text-white">
                                                     {/* <p className="text-xs text-muted-foreground">
                                                         Ultimo aggiornamento: {group.lastUpdate ? formatLastUpdate(group.lastUpdate) : "Mai"}
                                                     </p> */}
@@ -93,7 +93,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                                                 </div>
                                             )}
                                         </CardHeader>
-                                        <CardContent className="space-y-3">
+                                        <CardContent className="space-y-3 text-white">
                                             {hasData ? (
                                                 sensorItems.map((sensor) => {
                                                     const IconComponent = sensor.icon
@@ -104,8 +104,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                                                     return (
                                                         <div
                                                             key={sensorId}
-                                                            className={`p-3 rounded-lg border-2 cursor-pointer transition-all hover:bg-muted hover:shadow-md ${selectedSensor === sensorId ? "bg-muted border-primary shadow-md" : "border-border"
-                                                                }`}
+                                                            className={`p-3 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md border-border`}
                                                             onClick={() => setSelectedSensor(sensorId)}
                                                         >
                                                             <div className="flex items-center justify-between mb-2">
@@ -134,7 +133,7 @@ export default function SensorDashboard({ isOpen, onToggle, sensorGroups }: Sens
                     </ScrollArea>
 
                     {/* Fixed Footer with Statistics */}
-                    <div className="p-4 border-t bg-muted/30 flex-shrink-0 sticky bottom-0">
+                    <div className="p-4 border-t bg-(--custom-dark) flex-shrink-0 sticky bottom-0">
                         <div className="grid grid-cols-3 gap-2 text-center">
                             <div>
                                 <p className="text-xs text-muted-foreground">Normale</p>
