@@ -7,23 +7,23 @@ import { getGroupOverallStatus, getMarkerColor } from '@/utils/sensor-utils';
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
+    () => import('react-leaflet').then((mod) => mod.MapContainer),
+    { ssr: false }
 );
 
 const TileLayer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.TileLayer),
-  { ssr: false }
+    () => import('react-leaflet').then((mod) => mod.TileLayer),
+    { ssr: false }
 );
 
 const Marker = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Marker),
-  { ssr: false }
+    () => import('react-leaflet').then((mod) => mod.Marker),
+    { ssr: false }
 );
 
 const Popup = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Popup),
-  { ssr: false }
+    () => import('react-leaflet').then((mod) => mod.Popup),
+    { ssr: false }
 );
 
 interface MapWithPopupsProps {
@@ -45,7 +45,7 @@ const Map: React.FC<MapWithPopupsProps> = ({
     useEffect(() => {
         // Only run on client side
         setIsClient(true);
-        
+
         // Dynamically import Leaflet
         import('leaflet').then((leaflet) => {
             // Fix default icon issue
@@ -76,16 +76,16 @@ const Map: React.FC<MapWithPopupsProps> = ({
             />
             {sensorGroups.map((group) => {
                 if (!group.position) return null;
-                
+
                 const hasData = group.data !== null;
                 const overallStatus = hasData ? getGroupOverallStatus(group.data as SensorData) : "normale";
                 const markerColor = getMarkerColor(overallStatus);
-                
+
                 // Adjust marker size for mobile
                 const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
                 const markerSize = isMobile ? 40 : 32;
                 const fontSize = isMobile ? 16 : 14;
-                
+
                 return (
                     <Marker
                         key={group.id}
