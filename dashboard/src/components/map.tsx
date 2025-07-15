@@ -71,8 +71,8 @@ const Map: React.FC<MapWithPopupsProps> = ({
     return (
         <MapContainer center={center} zoom={zoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
             <TileLayer
-                attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://carto.com/">CARTO</a>'
             />
             {sensorGroups.map((group) => {
                 if (!group.position) return null;
